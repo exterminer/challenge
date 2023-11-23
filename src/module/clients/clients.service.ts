@@ -9,6 +9,7 @@ import { Client } from './entities/client.entity';
 import { PrismaService } from 'src/database/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
+import { request } from 'http';
 
 @Injectable()
 export class ClientsService {
@@ -21,6 +22,7 @@ export class ClientsService {
     if (findUser) {
       throw new ConflictException('Email Already exists');
     }
+
     const client = new Client();
     Object.assign(client, {
       ...createClientDto,

@@ -14,33 +14,38 @@ import { Contact } from './entities/contact.entity';
 export class ContactsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createContactDto: CreateContactDto) {
+  async create(createContactDto: CreateContactDto, userId: string) {
     const findUser = await this.prisma.contacts.findFirst({
       where: { email: createContactDto.email },
     });
     if (findUser) {
       throw new ConflictException('Email Already exists');
     }
-
+    console.log(userId);
     const newContact = await this.prisma.contacts.create({
       data: {
         nomeCompleto: createContactDto.nomeCompleto,
         email: createContactDto.email,
         telefone: createContactDto.telefone,
-        clientId: createContactDto.clientId,
+        clientId: userId,
       },
     });
     return plainToInstance(Contact, newContact);
   }
 
-  async findAll() {
-    const AllContacts = await this.prisma.contacts.findMany();
+  async findAll(userId: string) {
+    const AllContacts = await this.prisma.contacts.findMany({
+      where: { clientId: userId },
+    });
     return plainToInstance(Contact, AllContacts);
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, userId: string) {
     const contact = await this.prisma.contacts.findFirst({
-      where: { id: id },
+      where: {
+        clientId: userId,
+        id: id,
+      },
     });
     if (!contact) {
       throw new NotFoundException(`Client with id ${id} not found`);
@@ -48,12 +53,25 @@ export class ContactsService {
     return plainToInstance(Client, contact);
   }
 
-  async update(id: string, updateContactDto: UpdateContactDto) {
+  async update(id: string, updateContactDto: UpdateContactDto, userId: string) {
     const contactToUpdate = await this.prisma.contacts.findFirst({
-      where: { id: id },
+      where: {
+        clientId: userId,
+        id: id,
+      },
     });
     if (!contactToUpdate) {
       throw new NotFoundException(`Client with id ${id} not found`);
+    }
+    const existingContact = await this.prisma.contacts.findFirst({
+      where: {
+        email: updateContactDto.email,
+      },
+    });
+    if (existingContact) {
+      throw new ConflictException(
+        `Email ${updateContactDto.email} is already in use !`,
+      );
     }
     const updatedContact = this.prisma.contacts.update({
       where: { id: id },
@@ -63,9 +81,12 @@ export class ContactsService {
     return plainToInstance(Contact, updatedContact);
   }
 
-  async remove(id: string) {
+  async remove(id: string, userId: string) {
     const client = await this.prisma.contacts.findFirst({
-      where: { id: id },
+      where: {
+        clientId: userId,
+        id: id,
+      },
     });
 
     if (!client) {
