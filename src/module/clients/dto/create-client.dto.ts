@@ -1,5 +1,12 @@
-import { IsString, IsEmail, IsNotEmpty, IsOptional, isString } from 'class-validator';
-import { Exclude } from 'class-transformer';
+import { hashSync } from 'bcryptjs';
+import { Transform } from 'class-transformer';
+import {
+  IsString,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  MinLength,
+} from 'class-validator';
 
 export class CreateClientDto {
   @IsString()
@@ -10,9 +17,13 @@ export class CreateClientDto {
   @IsNotEmpty()
   email: string;
 
-  @IsNotEmpty()
   @IsString()
-  senha: string;
+  @MinLength(8)
+  @IsNotEmpty()
+  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
+    groups: ['transform'],
+  })
+  password: string;
 
   @IsString()
   @IsOptional()
