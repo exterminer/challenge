@@ -4,7 +4,7 @@ import { Client } from 'src/module/clients/entities/client.entity';
 export class CreateContactDto {
   @IsString()
   @IsNotEmpty()
-  nomeCompleto: string;
+  fullName: string;
 
   @IsEmail()
   @IsNotEmpty()
@@ -12,7 +12,7 @@ export class CreateContactDto {
 
   @IsNotEmpty()
   @IsString()
-  telefone: string;
+  phoneNumber: string;
 
   clientId: string;
 }

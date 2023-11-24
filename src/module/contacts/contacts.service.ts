@@ -23,9 +23,9 @@ export class ContactsService {
     }
     const newContact = await this.prisma.contacts.create({
       data: {
-        nomeCompleto: createContactDto.nomeCompleto,
+        fullName: createContactDto.fullName,
         email: createContactDto.email,
-        telefone: createContactDto.telefone,
+        phoneNumber: createContactDto.phoneNumber,
         clientId: userId,
       },
     });

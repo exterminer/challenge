@@ -10,21 +10,22 @@ datasource db {
 }
 
 model Client {
-  id              String   @id @default(uuid())
-  nomeCompleto    String
-  email           String   @unique
-  senha           String
-  telefone        String
-  dataDeRegistro  DateTime @default(now())
-  contatos        Contacts[]
+  id                String   @id @default(uuid())
+  fullName          String
+  email             String   @unique
+  senha             String
+  phoneNumber       String
+  isEmailConfirmed  Boolean @default(false) 
+  registerDate      DateTime @default(now())
+  contacts          Contacts[]
 }
 
 model Contacts {
   id              String   @id @default(uuid())
-  nomeCompleto    String
+  fullName        String
   email           String   @unique
-  telefone        String 
-  dataDeRegistro  DateTime @default(now())
+  phoneNumber     String 
+  registerDate    DateTime @default(now())
   clientId        String
   client          Client   @relation(fields: [clientId], references: [id])
 

@@ -3,11 +3,12 @@ import { Contact } from 'src/module/contacts/entities/contact.entity';
 
 export class Client {
   id: string;
-  nomeCompleto: string;
+  fullName: string;
   email: string;
   @Exclude()
   senha: string;
-  telefone: string;
-  dataDeRegistro: Date;
+  phoneNumber: string;
+  isEmailConfirmed: boolean;
+  registerDate: Date;
   contatos: Contact[];
 }

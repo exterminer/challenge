@@ -41,10 +41,10 @@ export class ClientsService {
 
     const newClient = await this.prisma.client.create({
       data: {
-        nomeCompleto: createClientDto.nomeCompleto,
+        fullName: createClientDto.fullName,
         email: createClientDto.email,
         senha: hash,
-        telefone: createClientDto.telefone,
+        phoneNumber: createClientDto.phoneNumber,
       },
     });
     return plainToInstance(Client, newClient);
@@ -85,10 +85,10 @@ export class ClientsService {
     const updatedUser = this.prisma.client.update({
       where: { id: id },
       data: {
-        nomeCompleto: updateClientDto.nomeCompleto,
+        fullName: updateClientDto.fullName,
         email: updateClientDto.email,
         senha: updateClientDto.password,
-        telefone: updateClientDto.telefone,
+        phoneNumber: updateClientDto.phoneNumber,
       },
     });
 

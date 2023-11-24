@@ -11,7 +11,7 @@ import {
 export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
-  nomeCompleto: string;
+  fullName: string;
 
   @IsEmail()
   @IsNotEmpty()
@@ -27,5 +27,7 @@ export class CreateClientDto {
 
   @IsString()
   @IsOptional()
-  telefone?: string;
+  phoneNumber?: string;
+
+  isEmailConfirmed: boolean = false;
 }

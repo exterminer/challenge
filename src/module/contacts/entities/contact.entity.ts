@@ -2,9 +2,9 @@ import { Client } from 'src/module/clients/entities/client.entity';
 
 export class Contact {
   id: string;
-  nomeCompleto: string;
+  fullName: string;
   email: string;
-  telefone: string;
-  dataDeRegistro: Date;
+  phoneNumber: string;
+  registerDate: Date;
   clientId: Client;
 }

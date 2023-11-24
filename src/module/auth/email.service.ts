@@ -11,7 +11,6 @@ export class EmailService {
       auth: {
         user: 'gerenciadordetoken@gmail.com',
         pass: 'ipvi kyqu exec zbea',
-
       },
     });
   }
