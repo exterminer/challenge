@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
@@ -18,6 +18,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
+    if (!user.isEmailConfirmed) {
+      throw new ForbiddenException('Account not confirmed');
+    }
     const passwordMatch = await compare(password, user.senha);
 
     if (!passwordMatch) {
