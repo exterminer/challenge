@@ -10,7 +10,8 @@ export class EmailService {
       service: 'gmail',
       auth: {
         user: 'gerenciadordetoken@gmail.com',
-        pass: '@Kz190398',
+        pass: 'ipvi kyqu exec zbea',
+
       },
     });
   }
@@ -20,7 +21,7 @@ export class EmailService {
       from: 'seu-email@gmail.com',
       to: to,
       subject: 'Confirme seu e-mail',
-      text: `Clique no seguinte link para confirmar seu e-mail: http://seu-app/confirm-email/${token}`,
+      text: `Seu token de confirmação é ${token}`,
     };
 
     return this.transporter.sendMail(mailOptions);

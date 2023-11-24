@@ -34,6 +34,10 @@ export class ClientsService {
       createClientDto.password,
       parseInt(process.env.SALT_ROUNDS),
     );
+    await this.emailService.sendConfirmationEmail(
+      createClientDto.email,
+      '123456',
+    );
 
     const newClient = await this.prisma.client.create({
       data: {
@@ -43,10 +47,6 @@ export class ClientsService {
         telefone: createClientDto.telefone,
       },
     });
-    await this.emailService.sendConfirmationEmail(
-      createClientDto.email,
-      '123456',
-    );
     return plainToInstance(Client, newClient);
   }
 
