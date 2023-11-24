@@ -20,7 +20,6 @@ export class AuthService {
 
     const passwordMatch = await compare(password, user.senha);
 
-    console.log(passwordMatch);
     if (!passwordMatch) {
       throw new UnauthorizedException('Invalid email or password');
     }

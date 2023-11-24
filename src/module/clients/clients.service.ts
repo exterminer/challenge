@@ -9,11 +9,14 @@ import { Client } from './entities/client.entity';
 import { PrismaService } from 'src/database/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
-import { request } from 'http';
+import { EmailService } from '../auth/email.service';
 
 @Injectable()
 export class ClientsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly emailService: EmailService,
+  ) {}
 
   async create(createClientDto: CreateClientDto) {
     const findUser = await this.prisma.client.findFirst({
@@ -40,7 +43,10 @@ export class ClientsService {
         telefone: createClientDto.telefone,
       },
     });
-
+    await this.emailService.sendConfirmationEmail(
+      createClientDto.email,
+      '123456',
+    );
     return plainToInstance(Client, newClient);
   }
 

@@ -21,7 +21,6 @@ export class ContactsService {
     if (findUser) {
       throw new ConflictException('Email Already exists');
     }
-    console.log(userId);
     const newContact = await this.prisma.contacts.create({
       data: {
         nomeCompleto: createContactDto.nomeCompleto,
